@@ -34,7 +34,7 @@ Henry’s Grocery, currently only stocks four items and has two promotions. Thes
 | **the offer**| **valid from** | **valid to** | 
 | :---     | :---: | :---: |    
 | Buy 2 tins of soup and get a loaf of bread half price | yesterday | for 7 days |
-| Apples have a 10% discount | from 3 days hence | until the end of the following month |
+| Apples have a 10% discountOffer | from 3 days hence | until the end of the following month |
 
 ### Inputs
  All basket items added via the command prompt.
