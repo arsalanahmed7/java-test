@@ -1,6 +1,8 @@
 package com.java.test.discount;
 
+import java.util.List;
+
 public interface DiscountRepository {
-    void add(DiscountOffer discountOffer);
-    void add(DiscountOffer... discountOffer);
+    boolean add(final DiscountOffer... discountOffer);
+    List<DiscountOffer> getAllDiscountOffers();
 }

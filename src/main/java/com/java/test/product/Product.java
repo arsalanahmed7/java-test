@@ -10,4 +10,16 @@ public class Product {
         this.unit = unit;
         this.cost = cost;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public double getCost() {
+        return cost;
+    }
+
+    public String getUnit() {
+        return unit;
+    }
 }

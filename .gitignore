@@ -3,3 +3,31 @@
 
 # Ignore Gradle build output directory
 build
+/java-test.iml
+/java-test.ipr
+/java-test.iws
+/.idea/libraries/Gradle__com_google_code_findbugs_jsr305_3_0_2.xml
+/.idea/libraries/Gradle__com_google_errorprone_error_prone_annotations_2_2_0.xml
+/.idea/libraries/Gradle__com_google_guava_failureaccess_1_0_1.xml
+/.idea/libraries/Gradle__com_google_guava_guava_27_1_jre.xml
+/.idea/libraries/Gradle__com_google_guava_listenablefuture_9999_0_empty_to_avoid_conflict_with_guava.xml
+/.idea/libraries/Gradle__com_google_j2objc_j2objc_annotations_1_1.xml
+/.idea/libraries/Gradle__junit_junit_4_12.xml
+/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_1_9_10.xml
+/.idea/libraries/Gradle__net_bytebuddy_byte_buddy_agent_1_9_10.xml
+/.idea/libraries/Gradle__org_apache_commons_commons_math3_3_6_1.xml
+/.idea/libraries/Gradle__org_checkerframework_checker_qual_2_5_2.xml
+/.idea/libraries/Gradle__org_codehaus_mojo_animal_sniffer_annotations_1_17.xml
+/.idea/libraries/Gradle__org_hamcrest_hamcrest_core_1_3.xml
+/.idea/libraries/Gradle__org_mockito_mockito_core_2_28_2.xml
+/.idea/libraries/Gradle__org_objenesis_objenesis_2_6.xml
+/.idea/modules/java-test.main.iml
+/.idea/modules/java-test.test.iml
+/.idea/.gitignore
+/.idea/compiler.xml
+/.idea/gradle.xml
+/.idea/java-test.iml
+/.idea/misc.xml
+/.idea/modules.xml
+/.idea/uiDesigner.xml
+/.idea/vcs.xml

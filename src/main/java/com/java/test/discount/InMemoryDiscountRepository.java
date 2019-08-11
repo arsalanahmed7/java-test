@@ -1,13 +1,20 @@
 package com.java.test.discount;
 
-public class InMemoryDiscountRepository implements DiscountRepository {
-    @Override
-    public void add(DiscountOffer discountOffer) {
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
+public class InMemoryDiscountRepository implements DiscountRepository {
+
+    private List<DiscountOffer> inMemoryDiscountOffers = new ArrayList<>();
+
+    @Override
+    public boolean add(final DiscountOffer... discountOffers) {
+        return inMemoryDiscountOffers.addAll(Arrays.asList(discountOffers));
     }
 
     @Override
-    public void add(DiscountOffer... discountOffer) {
-
+    public List<DiscountOffer> getAllDiscountOffers() {
+        return inMemoryDiscountOffers;
     }
 }

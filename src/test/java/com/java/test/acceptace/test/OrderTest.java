@@ -17,26 +17,26 @@ import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
 
 public class OrderTest {
-    private ProductRepository productRepository = new InMemoryProductRepository();
-    private DiscountRepository discountRepository = new InMemoryDiscountRepository();
-    private CheckoutService checkoutService = new StoreCheckoutService(productRepository, discountRepository);
+    private final ProductRepository productRepository = new InMemoryProductRepository();
+    private final DiscountRepository discountRepository = new InMemoryDiscountRepository();
+    private final PromotionService promotionService = new PromotionService(discountRepository, productRepository);
+    private CheckoutService checkoutService = new StoreCheckoutService(productRepository, promotionService);
 
     @Before
     public void setup(){
-        Product product1 = new Product("soup", "tin",0.65);
-        Product product2 = new Product("bread", "loaf", 0.8);
-        Product product3 = new Product("milk", "bottle", 1.3);
-        Product product4 = new Product("apples", "single",0.1);
+        final Product product1 = new Product("soup", "tin",0.65);
+        final Product product2 = new Product("bread", "loaf", 0.8);
+        final Product product3 = new Product("milk", "bottle", 1.3);
+        final Product product4 = new Product("apple", "single",0.1);
         productRepository.save(product1, product2, product3, product4);
 
         DiscountOffer flatDiscount = new FlatPercentDiscountOffer("apple", 10, LocalDate.now().minusDays(2), 7);
         DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("soup", 2, "bread", 50, LocalDate.now().minusDays(2), 7);
         discountRepository.add(flatDiscount, multiBuyDiscount);
-
     }
 
     @Test
-    public void test() {
+    public void shouldApplyDiscountWhenBasketHas3SoupsAnd2Breads() {
         Basket basket = new Basket();
 
         basket.add("soup", 3);
@@ -45,6 +45,5 @@ public class OrderTest {
         Bill bill = checkoutService.checkout(basket);
 
         assertThat( bill.getTotalAmount(), is(3.15));
-
     }
 }
