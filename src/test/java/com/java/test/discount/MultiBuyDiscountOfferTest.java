@@ -7,6 +7,7 @@ import com.java.test.product.Product;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
@@ -18,7 +19,7 @@ import static org.mockito.Mockito.when;
 public class MultiBuyDiscountOfferTest {
 
     private static final DiscountBillingRow EMPTY_DISCOUNT_BILLING_ROW = new DiscountBillingRow(0, "");
-    private final DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDate.now().minusDays(2), 7);
+    private final DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(7));
 
     @Test
     public void shouldApplyDiscount() {
@@ -35,7 +36,7 @@ public class MultiBuyDiscountOfferTest {
 
     @Test
     public void shouldApplyDiscountWhenOtherProductIs100PercentOff() {
-        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 100, LocalDate.now().minusDays(2), 7);
+        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 100, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(7));
 
         //GIVEN
         final Basket basket = mock(Basket.class);
@@ -51,7 +52,7 @@ public class MultiBuyDiscountOfferTest {
     @Test
     public void shouldNotApplyDiscountWhenPromotionIsExpired() {
         //GIVEN
-        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDate.now().minusDays(2), -1);
+        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(-1));
 
         final Basket basket = mock(Basket.class);
 
@@ -64,7 +65,7 @@ public class MultiBuyDiscountOfferTest {
     @Test
     public void shouldNotApplyDiscountWhenDiscountAmountIsZero() {
         //GIVEN
-        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDate.now().minusDays(2), -1);
+        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(-1));
 
         final Basket basket = mock(Basket.class);
 

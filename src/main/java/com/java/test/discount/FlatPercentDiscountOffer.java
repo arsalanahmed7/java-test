@@ -29,6 +29,7 @@ public class FlatPercentDiscountOffer implements DiscountOffer {
 
     @Override
     public Optional<DiscountBillingRow> apply(final Basket basket, final Map<String, Product> products) {
+        products.get(productName);
         return Optional.empty();
     }
 

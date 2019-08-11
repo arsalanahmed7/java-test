@@ -5,6 +5,7 @@ import com.java.test.billing.DiscountBillingRow;
 import com.java.test.product.Product;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -15,16 +16,16 @@ public class MultiBuyDiscountOffer implements DiscountOffer {
     private final int buyQuantity;
     private final String discountedProductName;
     private final int discountPercent;
-    private final LocalDate startsFrom;
-    private final int forNumberOfDays;
+    private final LocalDateTime startsFrom;
+    private final LocalDateTime endDate;
 
-    public MultiBuyDiscountOffer(final String productName, final int buyQuantity, final String discountedProductName, final int discountPercent, final LocalDate startsFrom, final int forNumberOfDays) {
+    public MultiBuyDiscountOffer(final String productName, final int buyQuantity, final String discountedProductName, final int discountPercent, final LocalDateTime startsFrom, final LocalDateTime endDate) {
         this.productName = productName;
         this.buyQuantity = buyQuantity;
         this.discountedProductName = discountedProductName;
         this.discountPercent = discountPercent;
         this.startsFrom = startsFrom;
-        this.forNumberOfDays = forNumberOfDays;
+        this.endDate = endDate;
     }
 
     @Override
@@ -53,7 +54,7 @@ public class MultiBuyDiscountOffer implements DiscountOffer {
     }
 
     private boolean doesApply() {
-        final LocalDate now = LocalDate.now();
-        return startsFrom.isBefore(now) && now.isBefore(startsFrom.plusDays(forNumberOfDays));
+        final LocalDateTime now = LocalDateTime.now();
+        return startsFrom.isBefore(now) && now.isBefore(endDate);
     }
 }

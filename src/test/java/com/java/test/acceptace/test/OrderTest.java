@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.assertThat;
@@ -30,8 +31,8 @@ public class OrderTest {
         final Product product4 = new Product("apple", "single",0.1);
         productRepository.save(product1, product2, product3, product4);
 
-        DiscountOffer flatDiscount = new FlatPercentDiscountOffer("apple", 10, LocalDate.now().minusDays(2), 7);
-        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("soup", 2, "bread", 50, LocalDate.now().minusDays(2), 7);
+        final DiscountOffer flatDiscount = new FlatPercentDiscountOffer("apple", 10, LocalDate.now().plusDays(3), 7);
+        final DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("soup", 2, "bread", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusMonths(1));
         discountRepository.add(flatDiscount, multiBuyDiscount);
     }
 
@@ -45,5 +46,17 @@ public class OrderTest {
         Bill bill = checkoutService.checkout(basket);
 
         assertThat( bill.getTotalAmount(), is(3.15));
+    }
+
+    @Test
+    public void shouldApplyDiscountWhenBasketHas6ApplesAndAMilk() {
+        Basket basket = new Basket();
+
+        basket.add("apple", 6);
+        basket.add("milk", 1);
+
+        Bill bill = checkoutService.checkout(basket);
+
+        assertThat( bill.getTotalAmount(), is(1.9));
     }
 }
