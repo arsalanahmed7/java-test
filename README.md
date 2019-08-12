@@ -1,14 +1,16 @@
 # Java Exercise
 
-This application is made in such a way that it will be converted into production application with just replacing the im memory repository implementation to database repository implementation.
+This application is made in such a way that it will be converted into production application with just replacing the in memory repository implementation to database repository implementation.
 
-This application is design by using BDD/TDD approach. This approach is selected to measure the correctness and completeness of real possible scenarios in automated way rather then repeating test manually again and again, which require more efforts then actually writing test.
+This application is design by using BDD/TDD approach. This approach is selected to measure the correctness and completeness of all possible scenarios in automated way rather then repeating test manually again and again, which require more efforts then writing test.
 
-This app has got 2 type of tests, Unit/Acceptance test. Unit covers class level logic however acceptance test, OrderTest.java, covers the test scenarios mentioned in this test.
+This app has got 2 type of tests, Unit/Acceptance test. Unit test class level logic however acceptance test, OrderTest.java, covers the test scenarios mentioned in this test.
 
 There is a main application which takes billing date in mentioned format and quantity of each product added into shopping basket before calculating total amount with applicable discounts.
 
 To get more understanding on covered scenarios please refer to unit tests.
+
+
 
 This is a simple exercise to allow you to demostrate your software engineering skillset. It's completly up to you how long you give yourself, stop when you're happy with the quality of your work, but we don't expect it to take too long.
 
