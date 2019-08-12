@@ -6,8 +6,8 @@ import com.java.test.billing.DiscountBillingRow;
 import com.java.test.product.Product;
 import org.junit.Test;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.Optional;
 
 import static org.hamcrest.core.Is.is;
@@ -25,8 +25,51 @@ public class MultiBuyDiscountOfferTest {
     public void shouldApplyDiscount() {
         //GIVEN
         final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
 
         when(basket.getProductQuantityByName("productName")).thenReturn(1);
+        when(basket.getProductQuantityByName("productName1")).thenReturn(1);
+        //WHEN
+        final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, ImmutableMap.of("productName", new Product("productName", "unit", 1), "productName1", new Product("productName1", "unit", 1)));
+
+        assertThat(discountBillingRow.orElse(EMPTY_DISCOUNT_BILLING_ROW).getAmount(), is(-0.5D));
+    }
+
+    @Test
+    public void shouldApplyDiscountWithMultipleDiscounts() {
+        //GIVEN
+        final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
+
+        when(basket.getProductQuantityByName("productName")).thenReturn(2);
+        when(basket.getProductQuantityByName("productName1")).thenReturn(2);
+        //WHEN
+        final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, ImmutableMap.of("productName", new Product("productName", "unit", 1), "productName1", new Product("productName1", "unit", 1)));
+
+        assertThat(discountBillingRow.orElse(EMPTY_DISCOUNT_BILLING_ROW).getAmount(), is(-1D));
+    }
+
+    @Test
+    public void shouldApplySingleDiscount() {
+        //GIVEN
+        final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
+
+        when(basket.getProductQuantityByName("productName")).thenReturn(1);
+        when(basket.getProductQuantityByName("productName1")).thenReturn(5);
+        //WHEN
+        final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, ImmutableMap.of("productName", new Product("productName", "unit", 1), "productName1", new Product("productName1", "unit", 1)));
+
+        assertThat(discountBillingRow.orElse(EMPTY_DISCOUNT_BILLING_ROW).getAmount(), is(-0.5D));
+    }
+
+    @Test
+    public void shouldApplySingleDiscountWhenPromotionProductsAreLess() {
+        //GIVEN
+        final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
+
+        when(basket.getProductQuantityByName("productName")).thenReturn(2);
         when(basket.getProductQuantityByName("productName1")).thenReturn(1);
         //WHEN
         final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, ImmutableMap.of("productName", new Product("productName", "unit", 1), "productName1", new Product("productName1", "unit", 1)));
@@ -40,6 +83,7 @@ public class MultiBuyDiscountOfferTest {
 
         //GIVEN
         final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
 
         when(basket.getProductQuantityByName("productName")).thenReturn(1);
         when(basket.getProductQuantityByName("productName1")).thenReturn(1);
@@ -55,6 +99,7 @@ public class MultiBuyDiscountOfferTest {
         DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusDays(-1));
 
         final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
 
         //WHEN
         final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, ImmutableMap.of("productName", new Product("productName", "unit", 1), "productName1", new Product("productName1", "unit", 1)));
@@ -68,10 +113,26 @@ public class MultiBuyDiscountOfferTest {
         DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(-1));
 
         final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
 
         //WHEN
         final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, ImmutableMap.of("productName", new Product("productName", "unit", 1), "productName1", new Product("productName1", "unit", 0)));
 
+        assertFalse(discountBillingRow.isPresent());
+    }
+
+    @Test
+    public void shouldNotApplyDiscountWhenProductMapIsEmpty() {
+        //GIVEN
+        DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("productName", 1, "productName1", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().minusDays(+3));
+
+        final Basket basket = mock(Basket.class);
+        when(basket.getBillDate()).thenReturn(LocalDateTime.now());
+
+        //WHEN
+        final Optional<DiscountBillingRow> discountBillingRow = multiBuyDiscount.apply(basket, Collections.emptyMap());
+
+        //THEN
         assertFalse(discountBillingRow.isPresent());
     }
 

@@ -31,7 +31,7 @@ public class OrderTest {
         final Product product4 = new Product("apple", "single",0.1);
         productRepository.save(product1, product2, product3, product4);
 
-        final DiscountOffer flatDiscount = new FlatPercentDiscountOffer("apple", 10, LocalDate.now().plusDays(3), 7);
+        final DiscountOffer flatDiscount = new FlatPercentDiscountOffer("apple", 10, LocalDateTime.now().plusDays(3), LocalDateTime.now().plusDays(10));
         final DiscountOffer multiBuyDiscount = new MultiBuyDiscountOffer("soup", 2, "bread", 50, LocalDateTime.now().minusDays(2), LocalDateTime.now().plusMonths(1));
         discountRepository.add(flatDiscount, multiBuyDiscount);
     }
@@ -58,5 +58,17 @@ public class OrderTest {
         Bill bill = checkoutService.checkout(basket);
 
         assertThat( bill.getTotalAmount(), is(1.9));
+    }
+
+    @Test
+    public void shouldApplyDiscountWhenBasketHas6ApplesAndAMilkIn5DaysTime() {
+        Basket basket = new Basket(LocalDateTime.now().plusDays(5));
+
+        basket.add("apple", 6);
+        basket.add("milk", 1);
+
+        Bill bill = checkoutService.checkout(basket);
+
+        assertThat( bill.getTotalAmount(), is(1.84));
     }
 }

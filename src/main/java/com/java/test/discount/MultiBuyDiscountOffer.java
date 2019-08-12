@@ -4,7 +4,6 @@ import com.java.test.billing.Basket;
 import com.java.test.billing.DiscountBillingRow;
 import com.java.test.product.Product;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -30,17 +29,18 @@ public class MultiBuyDiscountOffer implements DiscountOffer {
 
     @Override
     public Optional<DiscountBillingRow> apply(final Basket basket, final Map<String, Product> products) {
-        if(!doesApply()) {
+        if(!doesApply(basket) || products.isEmpty()) {
             return Optional.empty();
         }
 
         final Integer quantityOfPromotionProduct = basket.getProductQuantityByName(productName);
-        final Integer quantityOfDiscountedProduct = basket.getProductQuantityByName(productName);
+        final Integer quantityOfDiscountedProduct = basket.getProductQuantityByName(discountedProductName);
         final Product discountProduct = products.get(discountedProductName);
         final double totalDiscountNumbers = Math.floor(quantityOfPromotionProduct / buyQuantity);
         final double totalDiscountedProductNumber = Math.floor(quantityOfDiscountedProduct / buyQuantity);
         final double percent = (double) discountPercent/100;
-        final double totalDiscount = totalDiscountNumbers * totalDiscountedProductNumber * percent * discountProduct.getCost();
+        final double discountedProducts = Math.min(totalDiscountNumbers, totalDiscountedProductNumber);
+        final double totalDiscount = discountedProducts * percent * discountProduct.getCost();
         if(totalDiscount > 0D) {
             return Optional.of(new DiscountBillingRow(totalDiscount, "multi buy offer"));
         } else {
@@ -53,8 +53,7 @@ public class MultiBuyDiscountOffer implements DiscountOffer {
         return Arrays.asList(productName, discountedProductName);
     }
 
-    private boolean doesApply() {
-        final LocalDateTime now = LocalDateTime.now();
-        return startsFrom.isBefore(now) && now.isBefore(endDate);
+    private boolean doesApply(Basket basket) {
+        return startsFrom.isBefore(basket.getBillDate()) && basket.getBillDate().isBefore(endDate);
     }
 }
