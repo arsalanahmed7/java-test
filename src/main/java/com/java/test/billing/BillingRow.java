@@ -1,5 +1,7 @@
 package com.java.test.billing;
 
+import static java.lang.String.format;
+
 public class BillingRow {
     private double amount;
     private String description;
@@ -13,7 +15,12 @@ public class BillingRow {
         return amount;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
+    }
+
+    @Override
+    public String toString() {
+        return format("%s ------- %s", description, amount);
     }
 }
