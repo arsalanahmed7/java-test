@@ -37,7 +37,7 @@ public class MultiBuyDiscountOffer implements DiscountOffer {
         final Integer quantityOfDiscountedProduct = basket.getProductQuantityByName(discountedProductName);
         final Product discountProduct = products.get(discountedProductName);
         final double totalDiscountNumbers = Math.floor(quantityOfPromotionProduct / buyQuantity);
-        final double totalDiscountedProductNumber = Math.floor(quantityOfDiscountedProduct / buyQuantity);
+        final double totalDiscountedProductNumber = quantityOfDiscountedProduct;
         final double percent = (double) discountPercent/100;
         final double discountedProducts = Math.min(totalDiscountNumbers, totalDiscountedProductNumber);
         final double totalDiscount = discountedProducts * percent * discountProduct.getCost();

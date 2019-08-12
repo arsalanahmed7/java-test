@@ -71,4 +71,17 @@ public class OrderTest {
 
         assertThat( bill.getTotalAmount(), is(1.84));
     }
+
+    @Test
+    public void shouldApplyDiscountWhenBasketHas3Apples2TinOfSoupAndABreadIn5DaysTime() {
+        Basket basket = new Basket(LocalDateTime.now().plusDays(5));
+
+        basket.add("apple", 3);
+        basket.add("soup", 2);
+        basket.add("bread", 1);
+
+        Bill bill = checkoutService.checkout(basket);
+
+        assertThat( bill.getTotalAmount(), is(1.97));
+    }
 }
