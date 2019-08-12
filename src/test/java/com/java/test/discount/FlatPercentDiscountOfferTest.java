@@ -57,9 +57,9 @@ public class FlatPercentDiscountOfferTest {
     public void shouldNotApplyDiscountWhenNoMatchingProductFoundInBasket() {
         //GIVEN
         Basket basket = new Basket(LocalDateTime.now().plusDays(3));
-        basket.add("apple", 1);
+
         //WHEN
-        final Optional<DiscountBillingRow> billingRow = flatPercentDiscountOffer.apply(basket, Collections.emptyMap());
+        final Optional<DiscountBillingRow> billingRow = flatPercentDiscountOffer.apply(basket, Collections.singletonMap("apple", new Product("apple", "single", 0.1D)));
 
         //THEN
         assertFalse(billingRow.isPresent());
